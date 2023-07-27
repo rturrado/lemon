@@ -16,6 +16,7 @@
  *
  */
 
+#include <lemon/assert.h>
 #include <lemon/arg_parser.h>
 
 namespace lemon {
@@ -221,7 +222,9 @@ namespace lemon {
                                 const std::string &opt)
   {
     Opts::iterator o = _opts.find(opt);
+#ifdef LEMON_ASSERT_HANDLER
     Opts::iterator s = _opts.find(syn);
+#endif
     LEMON_ASSERT(o!=_opts.end(), "Unknown option: '"+opt+"'");
     LEMON_ASSERT(s==_opts.end(), "Option already used: '"+syn+"'");
     ParData p;
