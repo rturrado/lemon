@@ -44,7 +44,7 @@ namespace lemon {
       NONE,  ///< Undefined type.
       MIN,   ///< DIMACS file type for minimum cost flow problems.
       MAX,   ///< DIMACS file type for maximum flow problems.
-      SP,    ///< DIMACS file type for shostest path problems.
+      SP,    ///< DIMACS file type for shortest path problems.
       MAT    ///< DIMACS file type for plain graphs and matching problems.
     };
     ///The file type

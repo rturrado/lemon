@@ -215,26 +215,27 @@ int main(int argc, const char *argv[]) {
   std::ifstream input;
   std::ofstream output;
 
-  switch(ap.files().size())
-    {
-    case 2:
-      output.open(ap.files()[1].c_str());
-      if (!output) {
-        throw IoError("Cannot open the file for writing", ap.files()[1]);
-      }
-    case 1:
-      input.open(ap.files()[0].c_str());
+  const auto& files = ap.files();
+  const auto files_size = files.size();
+  if (files_size > 2){
+    std::cerr << ap.commandName() << ": too many arguments\n";
+    return 1;
+  } else {
+    if (files_size > 0) {
+      input.open(files[0].c_str());
       if (!input) {
-        throw IoError("File cannot be found", ap.files()[0]);
+        throw IoError("File cannot be found: ", files[0]);
       }
-    case 0:
-      break;
-    default:
-      std::cerr << ap.commandName() << ": too many arguments\n";
-      return 1;
     }
-  std::istream& is = (ap.files().size()<1 ? std::cin : input);
-  std::ostream& os = (ap.files().size()<2 ? std::cout : output);
+    if (files_size > 1) {
+      output.open(files[1].c_str());
+      if (!output) {
+        throw IoError("Cannot open the file for writing: ", files[1]);
+      }
+    }
+  }
+  std::istream& is = ((files_size < 1) ? std::cin : input);
+  std::ostream& os = ((files_size < 2) ? std::cout : output);
 
   DimacsDescriptor desc = dimacsType(is);
 
@@ -251,6 +252,7 @@ int main(int argc, const char *argv[]) {
           break;
         case DimacsDescriptor::SP:
           std::cout << "sp";
+          break;
         case DimacsDescriptor::MAT:
           std::cout << "mat";
           break;
