@@ -10,7 +10,7 @@ endif()
 SET(PROJECT_NAME "LEMON")
 PROJECT(${PROJECT_NAME})
 
-INCLUDE(FindPythonInterp)
+find_package(Python3 REQUIRED)
 INCLUDE(FindWget)
 
 IF(EXISTS ${PROJECT_SOURCE_DIR}/cmake/version.cmake)
